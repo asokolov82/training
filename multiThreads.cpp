@@ -1,4 +1,4 @@
-﻿
+
 
 #include <iostream>
 #include <thread>
@@ -23,10 +23,10 @@ int main()
 {
     vector<thread> threads;
     const int   n = 100000000;
-    const int del = 100000;
+    const int del = 20000000;
     int m = n / del;
     int *array=new int[n];
-    int res[del];
+    int *res = new int[del];
     for (int i = 0; i < n; i++) {
         array[i] = 1 + rand() % 10;
     }
@@ -46,7 +46,7 @@ int main()
     for (int i = 0; i < n; i++) {
         ressumm += array[i];
     }
-    cout << " KONETZ main" << ressumm << endl;
+    cout << " KONETZ main " << ressumm << endl;
     delete[] array;
     return 0;
 }
