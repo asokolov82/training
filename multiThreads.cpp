@@ -5,6 +5,9 @@
 #include <algorithm>
 #include <vector>
 #include <winsock2.h> 
+#include <chrono>
+#include <ctime>
+#include <cstdlib>
 
 using namespace std;
 void sum(int arr[], int _m, int pos, int res[], int respos) {
@@ -30,6 +33,7 @@ int main()
     for (int i = 0; i < n; i++) {
         array[i] = 1 + rand() % 10;
     }
+    auto t_start = chrono::system_clock::now();
     for (int i = 0; i < m; i++)
     {
         threads.push_back(thread(sum, ref(array), del, i * del, ref(res), i));
@@ -40,13 +44,18 @@ int main()
     for (int i = 0; i < m; i++) {
         ressum += res[i];
     }
-    cout << "potokov - " << m << endl;
+    auto t_stop = chrono::system_clock::now();
+    long diff = chrono::duration_cast<chrono::milliseconds>(t_stop - t_start).count();
+    cout << "potokov - " << m << " vremya " << diff << endl;
     cout << " KONETZ potokov" << ressum << endl;
     int ressumm = 0;
+     t_start = chrono::system_clock::now();
     for (int i = 0; i < n; i++) {
         ressumm += array[i];
     }
-    cout << " KONETZ main " << ressumm << endl;
+     t_stop = chrono::system_clock::now();
+     diff = chrono::duration_cast<chrono::milliseconds>(t_stop - t_start).count();
+    cout << " KONETZ main " << ressumm << "  vremya " << diff << endl;
     delete[] array;
     return 0;
 }
