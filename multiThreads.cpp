@@ -30,7 +30,7 @@ int main()
     for (int i = 0; i < n; i++) {
         array[i] = 1 + rand() % 10;
     }
- /*   for (int i = 0; i < m; i++)
+    for (int i = 0; i < m; i++)
     {
         threads.push_back(thread(sum, ref(array), del, i * del, ref(res), i));
     }
@@ -41,7 +41,7 @@ int main()
         ressum += res[i];
     }
     cout << "potokov - " << m << endl;
-    cout << " KONETZ potokov" << ressum << endl;*/
+    cout << " KONETZ potokov" << ressum << endl;
     int ressumm = 0;
     for (int i = 0; i < n; i++) {
         ressumm += array[i];
