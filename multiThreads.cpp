@@ -1,0 +1,61 @@
+
+
+#include <iostream>
+#include <thread>
+#include <algorithm>
+#include <vector>
+#include <winsock2.h> 
+#include <chrono>
+#include <ctime>
+#include <cstdlib>
+
+using namespace std;
+void sum(int arr[], int _m, int pos, int res[], int respos) {
+    int summ = 0;
+    for (int i = 0; i < _m; i++) {
+    //    cout << "pos" << pos << " " << arr[pos] << ", " ;
+        summ += arr[pos]; 
+        pos++;
+        
+    } 
+    res[respos] = summ;
+  //  Sleep(50 * respos);
+  //  cout << endl << " potok-" << respos << " " << summ << endl;
+}
+int main()
+{
+    vector<thread> threads;
+    const int   n = 100000000;
+    const int del = 20000000;
+    int m = n / del;
+    int *array=new int[n];
+    int *res = new int[del];
+    for (int i = 0; i < n; i++) {
+        array[i] = 1 + rand() % 10;
+    }
+    auto t_start = chrono::system_clock::now();
+    for (int i = 0; i < m; i++)
+    {
+        threads.push_back(thread(sum, ref(array), del, i * del, ref(res), i));
+    }
+    for_each(threads.begin(), threads.end(), [](std::thread& t)
+        { t.join(); });
+    int ressum = 0;
+    for (int i = 0; i < m; i++) {
+        ressum += res[i];
+    }
+    auto t_stop = chrono::system_clock::now();
+    long diff = chrono::duration_cast<chrono::milliseconds>(t_stop - t_start).count();
+    cout << "potokov - " << m << " vremya " << diff << endl;
+    cout << " KONETZ potokov" << ressum << endl;
+    int ressumm = 0;
+     t_start = chrono::system_clock::now();
+    for (int i = 0; i < n; i++) {
+        ressumm += array[i];
+    }
+     t_stop = chrono::system_clock::now();
+     diff = chrono::duration_cast<chrono::milliseconds>(t_stop - t_start).count();
+    cout << " KONETZ main " << ressumm << "  vremya " << diff << endl;
+    delete[] array;
+    return 0;
+}
